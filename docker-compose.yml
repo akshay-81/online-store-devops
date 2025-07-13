@@ -1,0 +1,9 @@
+services:
+  backend:
+    image: online-store-backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app  # Optional: for live code reloads (host folder → container)
+    working_dir: /app
+    command: ["node", "index.js"]
