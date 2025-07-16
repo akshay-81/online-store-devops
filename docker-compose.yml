@@ -9,6 +9,11 @@ services:
     command: ["node", "index.js"]
     depends_on:
       - db
+    environment:
+      DB_HOST: db
+      DB_USER: admin
+      DB_PASS: admin123
+      DB_NAME: online_store
 
   db:
     image: postgres:15
