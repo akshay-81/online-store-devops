@@ -4,16 +4,6 @@ const pool = require('./db');
 const app = express();
 app.get('/', (_, res) => res.send('Hello, DevOps!'));
 
-app.get('/time', async (_, res) => {
-  try {
-    const result = await pool.query('SELECT NOW()');
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Database error');
-  }
-});
-
 app.get('/test-db', async (_, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
@@ -24,5 +14,14 @@ app.get('/test-db', async (_, res) => {
   }
 });
 
+app.get('/api/products', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM products');
+    res.json(result.rows); // Send array of products
+  } catch (err) {
+    console.error('Error fetching products:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 app.listen(3000, () => console.log('API up on 3000'));
