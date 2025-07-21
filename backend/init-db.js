@@ -18,4 +18,25 @@ const createTable = async () => {
   }
 };
 
+async function userTable() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username TEXT UNIQUE NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    console.log("Users table created successfully.");
+    process.exit();
+  } catch (err) {
+    console.error("Error initializing database:", err);
+    process.exit(1);
+  }
+}
+
+userTable();
 createTable();
