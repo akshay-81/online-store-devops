@@ -8,7 +8,6 @@ app.get('/test-db', async (_, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
     res.json({ success: true, time: result.rows[0].now });
-    console.log("dude");
   } catch (err) {
     console.error('DB error:', err);
     res.status(500).json({ success: false, message: 'Database connection failed' });
