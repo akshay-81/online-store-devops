@@ -1,13 +1,19 @@
 const express = require('express');
 const pool = require('./db');
+require("dotenv").config();
 
 const app = express();
+app.use(express.json()); // Enable JSON parsing
+const authRoutes = require('./auth');
+app.use(authRoutes);
+
 app.get('/', (_, res) => res.send('Hello, DevOps!'));
 
 app.get('/test-db', async (_, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
     res.json({ success: true, time: result.rows[0].now });
+    console.log("HI");
   } catch (err) {
     console.error('DB error:', err);
     res.status(500).json({ success: false, message: 'Database connection failed' });
@@ -37,9 +43,6 @@ app.get('/api/products/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-
-app.use(express.json()); // Enable JSON parsing
 
 // Add multiple products
 app.post('/api/products', async (req, res) => {
